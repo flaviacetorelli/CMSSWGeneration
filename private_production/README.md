@@ -31,7 +31,7 @@ Then you will have related cfg files for each step and related CMSSW.
 ### Submit crab jobs
 Now you are able to submit crab jobs for each step. In order to get NANOAODSIM, we need 5 steps.
 But first, open SMP-RunIIFall18wmLHEGS-00048_1_cfg_BSM.py (same for INT and SM) and redefine the LHEProducer like this:
-    ~~~
+~~~
 process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
     args = cms.vstring('https://fcetorel.web.cern.ch/fcetorel/OSWW_RcW_bsm_slc6_amd64_gcc630_CMSSW_9_3_16_tarball.tar.xz'),
     nEvents = cms.untracked.uint32(100),
@@ -39,13 +39,13 @@ process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
     outputFile = cms.string('cmsgrid_final.lhe'),
     scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_wget.sh')
 )
-    ~~~
-    And change the string
-        ~~~
+~~~
+
+And change the string
+~~~ 
 
     args = cms.vstring('https://fcetorel.web.cern.ch/fcetorel/OSWW_RcW_bsm_slc6_amd64_gcc630_CMSSW_9_3_16_tarball.tar.xz'),
-        ~~~
-
+~~~ 
 with the web location of your gridpack.
 
 1. GEN-SIM
