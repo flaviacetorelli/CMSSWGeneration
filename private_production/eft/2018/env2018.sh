@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# refer to: https://cms-pdmv.cern.ch/mcm/chained_requests?contains=SMP-RunIIAutumn18NanoAODv5-00111&page=0&shown=15
+# refer to: https://cms-pdmv.cern.ch/mcm/chained_requests?contains=SMP-RunIIAutumn18NanoAODv6-00054&page=0&shown=15
 echo '>>>>>>>>>>>>> set environment for GENSIM'
 export SCRAM_ARCH=slc6_amd64_gcc700
 source /cvmfs/cms.cern.ch/cmsset_default.sh
@@ -66,16 +66,16 @@ echo '>>>>>>>>>>>>> set environment for NANOAODSIM'
 
 export SCRAM_ARCH=slc6_amd64_gcc700
 source /cvmfs/cms.cern.ch/cmsset_default.sh
-if [ -r CMSSW_10_2_15/src ] ; then 
- echo release CMSSW_10_2_15 already exists
+if [ -r CMSSW_10_2_18/src ] ; then 
+ echo release CMSSW_10_2_18 already exists
 else
-scram p CMSSW CMSSW_10_2_15
+scram p CMSSW CMSSW_10_2_18
 fi
-cd CMSSW_10_2_15/src
+cd CMSSW_10_2_18/src
 eval `scram runtime -sh`
 
 
 scram b
 cd ../../
-cmsDriver.py step1 --filein "dbs:/WWJJToLNuLNu_EWK_noTop_13TeV-madgraph-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v1/MINIAODSIM" --fileout file:SMP-RunIIAutumn18NanoAODv5-00100.root --mc --eventcontent NANOAODSIM --datatier NANOAODSIM --conditions 102X_upgrade2018_realistic_v19 --step NANO --nThreads 2 --era Run2_2018,run2_nanoAOD_102Xv1 --python_filename SMP-RunIIAutumn18NanoAODv5-00100_1_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 10000 || exit $? ; 
-sed '/process.NANOAODSIMoutput = cms.OutputModule("NanoAODOutputModule",/a\    fakeNameForCrab =cms.untracked.bool(True),' -i SMP-RunIIAutumn18NanoAODv5-00100_1_cfg.py
+cmsDriver.py step1 --filein "dbs:/WWJJToLNuLNu_EWK_noTop_13TeV-madgraph-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v1/MINIAODSIM" --fileout file:SMP-RunIIAutumn18NanoAODv6-00054.root  --mc --eventcontent NANOAODSIM --datatier NANOAODSIM --conditions 102X_upgrade2018_realistic_v20 --step NANO --nThreads 2 --era Run2_2018,run2_nanoAOD_102Xv1 --python_filename SMP-RunIIAutumn18NanoAODv6-00054_1_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 10000 || exit $? ; 
+sed '/process.NANOAODSIMoutput = cms.OutputModule("NanoAODOutputModule",/a\    fakeNameForCrab =cms.untracked.bool(True),' -i SMP-RunIIAutumn18NanoAODv6-00054_1_cfg.py
