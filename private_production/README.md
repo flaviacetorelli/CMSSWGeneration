@@ -8,7 +8,7 @@ But before setting environment, do:
 ~~~
 voms-proxy-init --voms cms -rfc
 ~~~
-### Install the run_generic_tarball_wget.sh
+### Install the run_generic_tarball_wget.sh 
 To catch tarball > 120 MB from web repository.
 ~~~
 cmsrel CMSSW_10_2_6
@@ -23,12 +23,30 @@ scram b
 ~~~
 Then you can run the environment setting file `env2018.sh`:
 ~~~
+cd ../../
 source env2018.sh
 ~~~
 Then you will have related cfg files for each step and related CMSSW.
 
 ### Submit crab jobs
 Now you are able to submit crab jobs for each step. In order to get NANOAODSIM, we need 5 steps.
+But first, open SMP-RunIIFall18wmLHEGS-00048_1_cfg_BSM.py (same for INT and SM) and redefine the LHEProducer like this:
+~~~
+process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
+    args = cms.vstring('https://fcetorel.web.cern.ch/fcetorel/OSWW_RcW_bsm_slc6_amd64_gcc630_CMSSW_9_3_16_tarball.tar.xz'),
+    nEvents = cms.untracked.uint32(100),
+    numberOfParameters = cms.uint32(1),
+    outputFile = cms.string('cmsgrid_final.lhe'),
+    scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_wget.sh')
+)
+~~~
+
+And change the string
+~~~ 
+
+    args = cms.vstring('https://fcetorel.web.cern.ch/fcetorel/OSWW_RcW_bsm_slc6_amd64_gcc630_CMSSW_9_3_16_tarball.tar.xz'),
+~~~ 
+with the web location of your gridpack.
 
 1. GEN-SIM
     - How to generate gridpack? Please find [here](https://twiki.cern.ch/twiki/bin/view/Main/Dim6VBSproduction).
@@ -70,4 +88,4 @@ Now you are able to submit crab jobs for each step. In order to get NANOAODSIM, 
     crab submit -c crab_INT_NANOAODSIM.py
     crab submit -c crab_BSM_NANOAODSIM.py
     ~~~
-Be aware that each step need specific version of CMSSW, which could be found in env2018.sh 
+Be aware that each step need specific version of CMSSW, which could be found in env2018.sh, so always do cmsenv in the appropriate CMSSW folder before running. 
